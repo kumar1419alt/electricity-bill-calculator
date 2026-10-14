@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <display-name>Electricity Bill Calculator</display-name>
+    <description>Responsive Electricity Bill Calculator Web Application using Java Servlet and Apache Tomcat</description>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>ElectricityBillServlet</servlet-name>
+        <servlet-class>com.electricity.servlet.ElectricityBillServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ElectricityBillServlet</servlet-name>
+        <url-pattern>/ElectricityBillServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ElectricityBillServlet</servlet-name>
+        <url-pattern>/calculate-bill</url-pattern>
+    </servlet-mapping>
+
+</web-app>

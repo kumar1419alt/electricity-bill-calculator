@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Responsive Electricity Bill Calculator Web Application powered by Java Servlet and Apache Tomcat. Calculate bills using progressive slab-based tariff rules.">
+    <title>⚡ ElectroBill | Electricity Bill Calculator</title>
+    <!-- Modern Typography: Google Fonts Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Top Header Banner -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>Electro<span>Bill</span></h1>
+                    <p class="brand-subtitle">Smart Progressive Tariff Calculator</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                <span>Java Servlet &amp; Tomcat Powered</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-layout">
+        <!-- Tariff Rules Reference Panel -->
+        <aside class="tariff-panel" aria-labelledby="tariff-heading">
+            <div class="tariff-card">
+                <div class="card-header">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                            <path d="M7 15h0M2 9.5h20"></path>
+                        </svg>
+                    </div>
+                    <h2 id="tariff-heading">Official Tariff Slabs</h2>
+                </div>
+                <p class="tariff-desc">Charges are applied <strong>progressively</strong> across slab thresholds, never a single rate for all units.</p>
+                
+                <ul class="slab-list">
+                    <li class="slab-item">
+                        <div class="slab-badge">Slab 1</div>
+                        <div class="slab-info">
+                            <span class="slab-range">First 50 units (0 – 50)</span>
+                            <span class="slab-rate">₹3.50 <span>/ unit</span></span>
+                        </div>
+                    </li>
+                    <li class="slab-item">
+                        <div class="slab-badge">Slab 2</div>
+                        <div class="slab-info">
+                            <span class="slab-range">Next 100 units (51 – 150)</span>
+                            <span class="slab-rate">₹4.00 <span>/ unit</span></span>
+                        </div>
+                    </li>
+                    <li class="slab-item">
+                        <div class="slab-badge">Slab 3</div>
+                        <div class="slab-info">
+                            <span class="slab-range">Next 100 units (151 – 250)</span>
+                            <span class="slab-rate">₹5.20 <span>/ unit</span></span>
+                        </div>
+                    </li>
+                    <li class="slab-item">
+                        <div class="slab-badge">Slab 4</div>
+                        <div class="slab-info">
+                            <span class="slab-range">Above 250 units</span>
+                            <span class="slab-rate">₹6.50 <span>/ unit</span></span>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="tariff-example">
+                    <div class="example-title">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <strong>Example (300 Units)</strong>
+                    </div>
+                    <div class="example-steps">
+                        <div>50 × ₹3.50 = ₹175</div>
+                        <div>100 × ₹4.00 = ₹400</div>
+                        <div>100 × ₹5.20 = ₹520</div>
+                        <div>50 × ₹6.50 = ₹325</div>
+                        <div class="example-total">Total = ₹1,420.00</div>
+                    </div>
+                </div>
+
+                <!-- Quick Test Preset Buttons -->
+                <div class="test-presets">
+                    <span class="presets-label">Quick Test Cases:</span>
+                    <div class="preset-chips">
+                        <button type="button" class="chip-btn" data-units="0" title="Test 0 units">0 U</button>
+                        <button type="button" class="chip-btn" data-units="50" title="Test 50 units">50 U</button>
+                        <button type="button" class="chip-btn" data-units="51" title="Test 51 units">51 U</button>
+                        <button type="button" class="chip-btn" data-units="150" title="Test 150 units">150 U</button>
+                        <button type="button" class="chip-btn" data-units="151" title="Test 151 units">151 U</button>
+                        <button type="button" class="chip-btn" data-units="250" title="Test 250 units">250 U</button>
+                        <button type="button" class="chip-btn" data-units="251" title="Test 251 units">251 U</button>
+                        <button type="button" class="chip-btn" data-units="300" title="Test 300 units">300 U</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Interactive Calculator Section -->
+        <section class="calculator-section" aria-labelledby="calc-heading">
+            <!-- Input Form Card -->
+            <div class="card form-card">
+                <div class="card-header">
+                    <div class="header-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 id="calc-heading">Consumer &amp; Consumption Details</h2>
+                        <p class="card-subtitle">Fill in consumer credentials to calculate progressive tariff</p>
+                    </div>
+                </div>
+
+                <!-- Alert/Error Notification Box -->
+                <div id="errorAlert" class="alert-box alert-error" role="alert" aria-live="polite" style="display: none;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span id="errorMessageText">Validation error message</span>
+                </div>
+
+                <!-- Form -->
+                <form id="electricityBillForm" action="ElectricityBillServlet" method="POST" novalidate>
+                    <div class="form-grid">
+                        <!-- Consumer Name -->
+                        <div class="form-group">
+                            <label for="consumerName">
+                                <span class="label-text">Consumer Full Name</span>
+                                <span class="req">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </span>
+                                <input type="text" id="consumerName" name="consumerName" placeholder="e.g. Rahul Sharma" autocomplete="name" required aria-required="true">
+                            </div>
+                            <span class="field-feedback" id="consumerNameError"></span>
+                        </div>
+
+                        <!-- Consumer Number -->
+                        <div class="form-group">
+                            <label for="consumerNumber">
+                                <span class="label-text">Consumer Account / Meter No.</span>
+                                <span class="req">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                    </svg>
+                                </span>
+                                <input type="text" id="consumerNumber" name="consumerNumber" placeholder="e.g. EB-2026-8849" required aria-required="true">
+                            </div>
+                            <span class="field-feedback" id="consumerNumberError"></span>
+                        </div>
+
+                        <!-- Units Consumed -->
+                        <div class="form-group full-width">
+                            <label for="units">
+                                <span class="label-text">Units Consumed (kWh)</span>
+                                <span class="req">*</span>
+                            </label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                                    </svg>
+                                </span>
+                                <input type="number" id="units" name="units" min="0" step="any" placeholder="Enter units (e.g. 300)" required aria-required="true">
+                                <span class="input-unit-tag">kWh</span>
+                            </div>
+                            <span class="field-feedback" id="unitsError"></span>
+                            <span class="input-hint">Enter 0 or greater. Progressive slab calculations are executed by the Java Servlet.</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" id="calculateBtn" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                            <span>Calculate Bill</span>
+                        </button>
+                        <button type="button" id="resetBtn" class="btn btn-secondary">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                <path d="M3 3v5h5"></path>
+                            </svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Calculation Loading State -->
+            <div id="loadingState" class="loading-state" style="display: none;" aria-live="polite">
+                <div class="spinner"></div>
+                <p>Computing progressive charges via ElectricityBillServlet...</p>
+            </div>
+
+            <!-- Attractive Bill Result Card -->
+            <div id="resultCard" class="card result-card" style="display: none;" aria-live="polite">
+                <!-- Receipt Header -->
+                <div class="bill-header">
+                    <div class="bill-brand">
+                        <div class="bill-icon">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="bill-title">Official Electricity Bill Statement</h3>
+                            <span class="bill-badge">Verified Server Calculation</span>
+                        </div>
+                    </div>
+                    <div class="bill-meta">
+                        <span class="meta-label">Generated On</span>
+                        <strong id="resultDate" class="meta-val">--</strong>
+                    </div>
+                </div>
+
+                <!-- Consumer Summary Grid -->
+                <div class="consumer-summary">
+                    <div class="summary-box">
+                        <span class="summary-label">Consumer Name</span>
+                        <strong id="resultConsumerName" class="summary-val">--</strong>
+                    </div>
+                    <div class="summary-box">
+                        <span class="summary-label">Consumer Number</span>
+                        <strong id="resultConsumerNumber" class="summary-val">--</strong>
+                    </div>
+                    <div class="summary-box highlight-box">
+                        <span class="summary-label">Total Units Consumed</span>
+                        <strong id="resultTotalUnits" class="summary-val">-- kWh</strong>
+                    </div>
+                </div>
+
+                <!-- Progressive Slab Breakdown Table -->
+                <div class="slab-breakdown-wrapper">
+                    <h4 class="breakdown-title">
+                        <span>Progressive Slab Breakdown</span>
+                        <small class="breakdown-note">Tariff applied incrementally</small>
+                    </h4>
+                    <div class="table-responsive">
+                        <table class="slab-table" id="slabTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tariff Slab</th>
+                                    <th scope="col">Threshold Range</th>
+                                    <th scope="col" class="text-right">Units In Slab</th>
+                                    <th scope="col" class="text-right">Rate / Unit</th>
+                                    <th scope="col" class="text-right">Charge Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="slabTableBody">
+                                <!-- Populated dynamically by script.js from Servlet JSON -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Final Total Amount Box -->
+                <div class="bill-total-card">
+                    <div class="total-label-area">
+                        <span class="total-caption">Total Amount Payable</span>
+                        <span class="total-subtext">No additional taxes or fixed charges applied</span>
+                    </div>
+                    <div class="total-amount-area">
+                        <span class="currency-symbol">₹</span>
+                        <span id="resultTotalAmount" class="total-amount-display">0.00</span>
+                    </div>
+                </div>
+
+                <!-- Result Card Actions -->
+                <div class="result-actions no-print">
+                    <button type="button" id="printBtn" class="btn btn-print">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        <span>Print Bill Receipt</span>
+                    </button>
+                    <button type="button" id="newCalculationBtn" class="btn btn-secondary">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Calculate Another</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer no-print">
+        <p>&copy; 2026 ElectroBill &bull; Progressive Electricity Bill Calculator &bull; Built with Java Servlet &amp; Apache Tomcat</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
